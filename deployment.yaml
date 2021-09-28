@@ -36,7 +36,7 @@ kind: Ingress
 metadata:
  name: nodered-ingress
  annotations:
-  kubernetes.io/ingress.global-static-ip-name: testproject1
+  kubernetes.io/ingress.global-static-ip-name: gondolaip
   networking.gke.io/managed-certificates: managed-cert-nodered
   kubernetes.io/ingress.class: "gce"
 spec:
@@ -52,4 +52,4 @@ metadata:
   name: managed-cert-nodered
 spec:
   domains:
-    - aivision.35.209.182.70.nip.io
+    - aivision.35.224.177.240.nip.io
