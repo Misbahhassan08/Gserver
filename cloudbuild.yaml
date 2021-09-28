@@ -1,17 +1,17 @@
 steps:
   # Step for Build Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/synapses-323217/github.com/misbahhassan08/nodered-https:$COMMIT_SHA","."]
+    args: ["build", "-t", "gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:$COMMIT_SHA","."]
   
   # Step for Push Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/synapses-323217/github.com/misbahhassan08/nodered-https:$COMMIT_SHA"]
+    args: ["push", "gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:$COMMIT_SHA"]
   # Step for deploy Container image to GKE
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
     - run
     - --filename=deployment.yaml
-    - --image=gcr.io/synapses-323217/github.com/misbahhassan08/nodered-https:$COMMIT_SHA
+    - --image=gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:$COMMIT_SHA
     - --location=us-central1-a
-    - --cluster=nodered-cluster
+    - --cluster=gondola-cluster
     
