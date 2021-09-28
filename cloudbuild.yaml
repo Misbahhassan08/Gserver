@@ -13,5 +13,5 @@ steps:
     - --filename=deployment.yaml
     - --image=gcr.io/gondola-327423/github.com/misbahhassan08/gserver:$COMMIT_SHA
     - --location=us-central1-c
-    - --cluster=cluster-1
+    - --cluster=cluster-2
     
