@@ -1,17 +1,17 @@
 steps:
   # Step for Build Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/my-project-1480912023860/github.com/misbahhassan08/Gserver:$COMMIT_SHA","."]
+    args: ["build", "-t", "gcr.io/my-project-1480912023860/github.com/misbahhassan08/gserver:$COMMIT_SHA","."]
   
   # Step for Push Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/my-project-1480912023860/github.com/misbahhassan08/Gserver:$COMMIT_SHA"]
+    args: ["push", "gcr.io/my-project-1480912023860/github.com/misbahhassan08/gserver:$COMMIT_SHA"]
   # Step for deploy Container image to GKE
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
     - run
     - --filename=deployment.yaml
-    - --image=gcr.io/my-project-1480912023860/github.com/misbahhassan08/Gserver:$COMMIT_SHA
+    - --image=gcr.io/my-project-1480912023860/github.com/misbahhassan08/gserver:$COMMIT_SHA
     - --location=us-central1-c
     - --cluster=gondola-cluster
     
