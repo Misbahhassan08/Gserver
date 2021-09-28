@@ -36,7 +36,7 @@ kind: Ingress
 metadata:
  name: nodered-ingress
  annotations:
-  kubernetes.io/ingress.global-static-ip-name: gondolaip
+  kubernetes.io/ingress.global-static-ip-name: gdev
   kubernetes.io/ingress.class: "gce"
 spec:
  defaultBackend:
