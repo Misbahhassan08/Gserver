@@ -354,7 +354,7 @@ module.exports = {
                 //  - auto - changes are automatically committed
                 // This can be overridden per-user from the 'Git config'
                 // section of 'User Settings' within the editor
-                mode: "manual"
+                mode: "auto"
             }
         }
     }
