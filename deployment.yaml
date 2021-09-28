@@ -14,7 +14,7 @@ spec:
   spec:
    containers:
    - name: nodered-https
-     image: gcr.io/synapses-323217/github.com/misbahhassan08/nodered-https:latest
+     image: gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:latest
      ports:
      - containerPort: 1880
 ---
@@ -36,7 +36,7 @@ kind: Ingress
 metadata:
  name: nodered-ingress
  annotations:
-  kubernetes.io/ingress.global-static-ip-name: irobotx-ip
+  kubernetes.io/ingress.global-static-ip-name: testproject1
   networking.gke.io/managed-certificates: managed-cert-nodered
   kubernetes.io/ingress.class: "gce"
 spec:
@@ -52,4 +52,4 @@ metadata:
   name: managed-cert-nodered
 spec:
   domains:
-    - irobotx.34.117.248.236.nip.io
+    - aivision.35.209.182.70.nip.io
