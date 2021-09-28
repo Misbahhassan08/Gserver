@@ -11,7 +11,7 @@ steps:
     args:
     - run
     - --filename=deployment.yaml
-    - --image=gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:$COMMIT_SHA
-    - --location=us-central1-a
+    - --image=gcr.io/my-project-1480912023860/github.com/misbahhassan08/Gserver:$COMMIT_SHA
+    - --location=us-central1-c
     - --cluster=gondola-cluster
     
