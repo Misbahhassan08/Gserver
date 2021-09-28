@@ -14,7 +14,7 @@ spec:
   spec:
    containers:
    - name: nodered-https
-     image: gcr.io/synapses-323217/github.com/misbahhassan08/Gserver:latest
+     image: gcr.io/my-project-1480912023860/github.com/misbahhassan08/Gserver:latest
      ports:
      - containerPort: 1880
 ---
