@@ -345,6 +345,28 @@ module.exports = {
 
     // Customising the editor
     editorTheme: {
+        page: {
+        title: "Gondola Server",
+        favicon: "/absolute/path/to/theme/icon",
+        css: "/absolute/path/to/custom/css/file",
+        scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
+    },
+    header: {
+        title: "Gondola Server",
+        image: "/absolute/path/to/header/image", // or null to remove image
+        url: "http://nodered.org" // optional url to make the header text/image a link to this url
+    },
+    deployButton: {
+        type:"simple",
+        label:"Deploy Server",
+        icon: "/absolute/path/to/deploy/button/image" // or null to remove image
+    },
+        login: {
+        image: "/absolute/path/to/login/page/big/image" // a 256x256 image
+    },
+    logout: {
+        redirect: "http://example.com"
+    },
         projects: {
             // To enable the Projects feature, set this value to true
             enabled: false,
