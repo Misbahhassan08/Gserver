@@ -17,13 +17,17 @@ spec:
      image: gcr.io/gondola-327423/github.com/misbahhassan08/gserver:latest
      ports:
      - containerPort: 1880
+     resources:
+      requests:
+       cpu: 200m
+       memory: 100Mi
 ---
 apiVersion: v1 
 kind: Service
 metadata:
  name: nodered-svc
 spec:
- type: NodePort
+ type: LoadBalancer
  selector:
   app: nodered-deploy
  ports:
