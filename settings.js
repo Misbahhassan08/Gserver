@@ -13,7 +13,7 @@
 
 console.log("Settings.js called ");
 process.env.HOSTNAME = require('os').hostname();
-//process.env.misbah = 'My name is misbah';
+
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
     uiPort: process.env.PORT || 1880,
@@ -123,7 +123,7 @@ module.exports = {
     //  readOnly:{boolean},
     //  middleware:{function or array}, (req,res,next) - http middleware
     //  ioMiddleware:{function or array}, (socket,next) - socket.io middleware
-    //ui: { path: "ui" },
+    ui: { path: "ui" },
 
     // Securing Node-RED
     // -----------------
