@@ -1,44 +1,40 @@
-kind: Deployment
-apiVersion: apps/v1
-metadata:
- name: nodered-deploy
-spec:
- replicas: 1
- selector:
-  matchLabels: 
-   app: nodered-deploy
- template:
-  metadata:
-   labels:
-    app: nodered-deploy
-  spec:
-   containers:
-   - name: nodered-https
-     image: gcr.io/gondola-327423/github.com/misbahhassan08/gserver:latest
-     ports:
-     - containerPort: 1880
-     resources:
-      requests:
-       cpu: 200m
-       memory: 100Mi
----
 apiVersion: v1 
 kind: Service
 metadata:
- name: nodered-svc
+ name: noderedrepo-2
 spec:
  type: LoadBalancer
  selector:
-  app: nodered-deploy
+  app: noderedrepo-2
  ports:
- - name: http
+ - protocol: TCP
    port: 80
    targetPort: 1880
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+ name: noderedrepo-2
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   app: noderedrepo-2
+ template:
+  metadata:
+   labels:
+    app: noderedrepo-2
+  spec:
+   containers:
+   - name: nodered-cluster
+     image: gcr.io/synapses-323217/github.com/misbahhassan08/gserver:latest
+     ports:
+     - containerPort: 1880
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
- name: nodered-ingress
+ name: noderedrepo-2
  annotations:
   kubernetes.io/ingress.global-static-ip-name: server-ip
   networking.gke.io/managed-certificates: managed-cert-gondola
@@ -46,7 +42,7 @@ metadata:
 spec:
  defaultBackend:
   service:
-   name: nodered-svc
+   name: noderedrepo-2
    port:
     number: 80
 ---
