@@ -365,7 +365,7 @@ module.exports = {
         image: "/absolute/path/to/login/page/big/image" // a 256x256 image
     },
     logout: {
-        redirect: "http://example.com"
+        redirect: "http://example1.com"
     },
         projects: {
             // To enable the Projects feature, set this value to true
