@@ -1,112 +1,54 @@
-ARG ARCH=amd64
-ARG NODE_VERSION=12
-ARG OS=alpine
+FROM node:lts as build
 
-#### Stage BASE ########################################################################################################
-FROM ${ARCH}/node:${NODE_VERSION}-${OS} AS base
+RUN apt-get update \
+  && apt-get install -y build-essential python perl-modules
 
-# Copy scripts
-COPY scripts/*.sh /tmp/
+RUN deluser --remove-home node \
+  && groupadd --gid 1000 nodered \
+  && useradd --gid nodered --uid 1000 --shell /bin/bash --create-home nodered
 
-# Install tools, create Node-RED app and data dir, add user and set rights
-RUN set -ex && \
-    apk add --no-cache \
-        bash \
-        tzdata \
-        iputils \
-        curl \
-        nano \
-        git \
-        openssl \
-        openssh-client \
-        ca-certificates && \
-    mkdir -p /usr/src/node-red /data && \
-    deluser --remove-home node && \
-    adduser -h /usr/src/node-red -D -H node-red -u 1000 && \
-    chown -R node-red:root /data && chmod -R g+rwX /data && \
-    chown -R node-red:root /usr/src/node-red && chmod -R g+rwX /usr/src/node-red
-    # chown -R node-red:node-red /data && \
-    # chown -R node-red:node-red /usr/src/node-red
+RUN mkdir -p /.node-red && chown 1000 /.node-red
 
-RUN echo "List of main Directory *************** \n"
-RUN pwd
-RUN ls -la
-# Set work directory
-WORKDIR /usr/src/node-red
+USER 1000
+WORKDIR /.node-red
 
-# package.json contains Node-RED NPM module and node dependencies
+COPY ./package.json /.node-red/
+RUN npm install
 
-RUN echo "List of node-red Directory before copy  *************** \n"
-RUN pwd
-RUN ls -la
+## Release image
+FROM node:lts-slim
 
+RUN apt-get update && apt-get install -y perl-modules && rm -rf /var/lib/apt/lists/*
 
-COPY package.json .
-COPY server.js .
-COPY settings.js .
-COPY flows.json .
-COPY settings.js /data
-COPY flows.json /data
+RUN deluser --remove-home node \
+  && groupadd --gid 1000 nodered \
+  && useradd --gid nodered --uid 1000 --shell /bin/bash --create-home nodered
 
-RUN echo "List of node-red Directory after copy  *************** \n"
-RUN pwd
-RUN ls -la
+RUN mkdir -p /.node-red && chown 1000 /.node-red
 
-#### Stage BUILD #######################################################################################################
-FROM base AS build
+USER 1000
 
-# Install Build tools
-RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python && \
-    npm install --unsafe-perm --no-update-notifier --no-fund --only=production && \
-    cp -R node_modules prod_node_modules
+COPY ./server.js /.node-red/
+COPY ./settings.js /.node-red/
+COPY ./flows.json /.node-red/
+COPY ./flows_cred.json /.node-red/
+COPY ./package.json /.node-red/
+COPY --from=build /.node-red/node_modules /.node-red/node_modules
 
+USER 0
 
+RUN chgrp -R 0 /.node-red \
+  && chmod -R g=u /.node-red
 
-#### Stage RELEASE #####################################################################################################
-FROM base AS RELEASE
-ARG BUILD_DATE
-ARG BUILD_VERSION
-ARG BUILD_REF
-ARG NODE_RED_VERSION
-ARG ARCH
-ARG TAG_SUFFIX=default
+USER 1000
 
-LABEL org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.docker.dockerfile=".docker/Dockerfile.alpine" \
-    org.label-schema.license="Apache-2.0" \
-    org.label-schema.name="Node-RED" \
-    org.label-schema.version=${BUILD_VERSION} \
-    org.label-schema.description="Low-code programming for event-driven applications." \
-    org.label-schema.url="https://nodered.org" \
-    org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/node-red/node-red-docker" \
-    org.label-schema.arch=${ARCH} \
-    authors="Misbah Ul Hassan"
+WORKDIR /.node-red
 
-COPY --from=build /usr/src/node-red/prod_node_modules ./node_modules
+RUN mkdir / .node-red/data
 
-RUN npm install firebase
-RUN npm install firebaseui --save
-RUN npm install node-red-dashboard
-RUN npm install node-red-contrib-google-cloud
-
-
-USER node-red
-
-# Env variables
-ENV NODE_RED_VERSION=$NODE_RED_VERSION \
-    NODE_PATH=/usr/src/node-red/node_modules:/data/node_modules \
-    PATH=/usr/src/node-red/node_modules/.bin:${PATH} \
-    FLOWS=flows.json
-
-# ENV NODE_RED_ENABLE_SAFE_MODE=true    # Uncomment to enable safe start mode (flows not running)
-# ENV NODE_RED_ENABLE_PROJECTS=true     # Uncomment to enable projects option
-
-# Expose the listening port of node-red
+ENV PORT 1880
+ENV NODE_ENV=production
+ENV NODE_PATH=/.node-red/node_modules
 EXPOSE 1880
 
-# Add a healthcheck (default every 30 secs)
-# HEALTHCHECK CMD curl http://localhost:1880/ || exit 1
-
-ENTRYPOINT ["npm", "start", "--cache", "/data/.npm", "--", "--userDir", "/data"]
+CMD ["node", "/.node-red/server.js", "/.node-red/flows.json"]
