@@ -369,14 +369,14 @@ module.exports = {
     },
         projects: {
             // To enable the Projects feature, set this value to true
-            enabled: true,
+            enabled: True,
             workflow: {
                 // Set the default projects workflow mode.
                 //  - manual - you must manually commit changes
                 //  - auto - changes are automatically committed
                 // This can be overridden per-user from the 'Git config'
                 // section of 'User Settings' within the editor
-                mode: "auto"
+                mode: "manual"
             }
         }
     }
