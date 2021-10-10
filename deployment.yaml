@@ -37,7 +37,6 @@ metadata:
  name: noderedrepo-2
  annotations:
   kubernetes.io/ingress.global-static-ip-name: server-ip
-  networking.gke.io/managed-certificates: managed-cert-gondola
   kubernetes.io/ingress.class: "gce"
 spec:
  defaultBackend:
@@ -45,11 +44,3 @@ spec:
    name: noderedrepo-2
    port:
     number: 80
----
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: managed-cert-gondola
-spec:
-  domains:
-    - thwack.34.107.201.197.nip.io
