@@ -96,7 +96,7 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    //httpAdminRoot: '/admin',
+    httpAdminRoot: '/misbah-admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
@@ -134,15 +134,8 @@ module.exports = {
         type: "credentials",
         users: [{
             username: "admindev24",
-            password: "$2b$08$LUzbzflSW6JEKXEprBc/AuqO4SJKqlY47EsCzw.FoS406Q6r756wO",
+            password: "$2b$08$liwqv8uuKeJUN6wQ6IulpODBsCabIZwag9QudVSMgcplNNBmkCOHC",
             permissions: "*"
-        },
-        {
-        
-            username: "dev24",
-            password: "$2b$08$ZjVQSZ5iOssafU.EfLwZJ.LWtWSnQno3CvVpiR9hAt5y2MlqsMheq",
-            permissions: "read"
-        
         }
                ]
         
@@ -365,7 +358,7 @@ module.exports = {
         image: "/absolute/path/to/login/page/big/image" // a 256x256 image
     },
     logout: {
-        redirect: "http://example1.com"
+        redirect: "#"
     },
         projects: {
             // To enable the Projects feature, set this value to true
