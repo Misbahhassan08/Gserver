@@ -338,15 +338,28 @@ module.exports = {
 
     // Customising the editor
     editorTheme: {
+        
+     projects: {
+            // To enable the Projects feature, set this value to true
+            enabled: true,
+            workflow: {
+                // Set the default projects workflow mode.
+                //  - manual - you must manually commit changes
+                //  - auto - changes are automatically committed
+                // This can be overridden per-user from the 'Git config'
+                // section of 'User Settings' within the editor
+                mode: "manual"
+            }
+        },
         page: {
         title: "Gondola Server",
-        favicon: "/absolute/path/to/theme/icon",
+        favicon: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.icon-icons.com%2Ficons2%2F37%2FPNG%2F512%2Fonline_4158.png&imgrefurl=https%3A%2F%2Ficon-icons.com%2Ficon%2Fonline%2F3596&tbnid=KdnVKWCqnNcBjM&vet=12ahUKEwiK7MK4x8XzAhXU3oUKHapwDowQMygBegUIARDNAQ..i&docid=Cj6Lsi_Q-B9XQM&w=512&h=512&q=online%20icons&ved=2ahUKEwiK7MK4x8XzAhXU3oUKHapwDowQMygBegUIARDNAQ",
         css: "/absolute/path/to/custom/css/file",
         scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
     },
     header: {
         title: "Gondola Server",
-        image: null, // or null to remove image
+        image: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fodesk-prod-portraits.s3.amazonaws.com%2FCompanies%3A8261416%3ACompanyLogoURL%3FAWSAccessKeyId%3DAKIAIKIUKM3HBSWUGCNQ%26Expires%3D2147483647%26Signature%3DIlLD5LpUT4YAWdeAYNWfA5uiujs%253D&imgrefurl=https%3A%2F%2Fwww.upwork.com%2Fo%2Fcompanies%2F~01738bd418eadd5bd5%2F&tbnid=yuUb3t7alMCaIM&vet=12ahUKEwifhvHkx8XzAhVdgM4BHbF7CvcQMygAegQIARA1..i&docid=NoQ__mnHJe9EUM&w=200&h=200&q=inovat-ioi&ved=2ahUKEwifhvHkx8XzAhVdgM4BHbF7CvcQMygAegQIARA1", // or null to remove image
         url: "#" // optional url to make the header text/image a link to this url
     },
     deployButton: {
@@ -359,18 +372,6 @@ module.exports = {
     },
     logout: {
         redirect: "#"
-    },
-        projects: {
-            // To enable the Projects feature, set this value to true
-            enabled: true,
-            workflow: {
-                // Set the default projects workflow mode.
-                //  - manual - you must manually commit changes
-                //  - auto - changes are automatically committed
-                // This can be overridden per-user from the 'Git config'
-                // section of 'User Settings' within the editor
-                mode: "manual"
-            }
-        }
+    }
     }
 }
