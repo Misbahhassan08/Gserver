@@ -74,7 +74,7 @@ module.exports = {
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:
-    //flowFilePretty: true,
+    flowFilePretty: true,
 
     // By default, credentials are encrypted in storage using a generated key. To
     // specify your own secret, set the following property.
@@ -346,8 +346,8 @@ module.exports = {
     },
     header: {
         title: "Gondola Server",
-        image: "/absolute/path/to/header/image", // or null to remove image
-        url: "http://nodered.org" // optional url to make the header text/image a link to this url
+        image: null, // or null to remove image
+        url: "#" // optional url to make the header text/image a link to this url
     },
     deployButton: {
         type:"simple",
