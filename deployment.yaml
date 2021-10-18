@@ -27,6 +27,6 @@ spec:
   spec:
    containers:
    - name: nodered-cluster
-     image: gcr.io/gondola-327423/github.com/misbahhassan08/gserver:latest
+     image: gcr.io/gondola-329315/github.com/misbahhassan08/gserver:latest
      ports:
      - containerPort: 1880
