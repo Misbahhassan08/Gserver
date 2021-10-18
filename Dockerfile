@@ -1,54 +1,27 @@
-FROM node:lts as build
+FROM nodered/node-red
 
-RUN apt-get update \
-  && apt-get install -y build-essential python perl-modules
+# Copy package.json to the WORKDIR so npm builds all
+# of your added nodes modules for Node-RED
+COPY package.json .
+RUN npm install --unsafe-perm --no-update-notifier --no-fund --only=production
 
-RUN deluser --remove-home node \
-  && groupadd --gid 1000 nodered \
-  && useradd --gid nodered --uid 1000 --shell /bin/bash --create-home nodered
+# Copy _your_ Node-RED project files into place
+# NOTE: This will only work if you DO NOT later mount /data as an external volume.
+#       If you need to use an external volume for persistence then
+#       copy your settings and flows files to that volume instead.
+COPY settings.js /data/settings.js
+COPY flows_cred.json /data/flows_cred.json
+COPY flows.json /data/flows.json
 
-RUN mkdir -p /.node-red && chown 1000 /.node-red
-
-USER 1000
-WORKDIR /.node-red
-
-COPY ./package.json /.node-red/
-RUN npm install
-
-## Release image
-FROM node:lts-slim
-
-RUN apt-get update && apt-get install -y perl-modules && rm -rf /var/lib/apt/lists/*
-
-RUN deluser --remove-home node \
-  && groupadd --gid 1000 nodered \
-  && useradd --gid nodered --uid 1000 --shell /bin/bash --create-home nodered
-
-RUN mkdir -p /.node-red && chown 1000 /.node-red
-
-USER 1000
-
-COPY ./server.js /.node-red/
-COPY ./settings.js /.node-red/
-COPY ./flows.json /.node-red/
-COPY ./flows_cred.json /.node-red/
-COPY ./package.json /.node-red/
-COPY --from=build /.node-red/node_modules /.node-red/node_modules
-
-USER 0
-
-RUN chgrp -R 0 /.node-red \
-  && chmod -R g=u /.node-red
-
-USER 1000
-
-WORKDIR /.node-red
-
-RUN mkdir /.node-red/data
-
-ENV PORT 1880
-ENV NODE_ENV=production
-ENV NODE_PATH=/.node-red/node_modules
-EXPOSE 1880
-
-CMD ["node", "/.node-red/server.js", "/.node-red/flows.json"]
+# You should add extra nodes via your package.json file but you can also add them here:
+WORKDIR /usr/src/node-red
+RUN npm install node-red-node-smooth
+RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python && \
+    npm install --unsafe-perm --no-update-notifier --no-fund --only=production && \
+    npm install node-red-node-mysql && \
+    npm install node-red-contrib-postgresql && \
+    npm i --unsafe-perm node-red-node-sqlite && \
+    npm install node-red-contrib-google-cloud && \
+    npm install npm install node-red-dashboard && \
+    npm install node-red-node-email && \
+    cp -R node_modules prod_node_modules  
