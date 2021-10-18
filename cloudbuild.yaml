@@ -1,10 +1,10 @@
 steps:
   # Step for Build Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/gondola-327423/github.com/misbahhassan08/gserver:$COMMIT_SHA","."]
+    args: ["build", "-t", "gcr.io/gondola-329315/github.com/misbahhassan08/gserver:$COMMIT_SHA","."]
   
   # Step for Push Container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/gondola-327423/github.com/misbahhassan08/gserver:$COMMIT_SHA"]
+    args: ["push", "gcr.io/gondola-329315/github.com/misbahhassan08/gserver:$COMMIT_SHA"]
 
     
