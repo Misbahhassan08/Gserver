@@ -3,7 +3,7 @@ kind: Service
 metadata:
  name: gserver
 spec:
- type: LoadBalancer
+ type: NodePort
  selector:
   app: gserver
  ports:
@@ -30,3 +30,29 @@ spec:
      image: gcr.io/gondola-329315/github.com/misbahhassan08/gserver:latest
      ports:
      - containerPort: 1880
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gserver
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: gondolaip
+    networking.gke.io/managed-certificates: managed-cert-gondola
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: gserver
+      port:
+        number: 80
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: managed-cert-gondola
+spec:
+  domains:
+    - thwack.34.107.149.108.nip.io
+        
+        
+        
