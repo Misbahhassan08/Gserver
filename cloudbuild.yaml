@@ -9,6 +9,4 @@ steps:
     
   # deploy container image to GKE
   - name: "gcr.io/cloud-builders/gke-deploy"
-    args:['run' ,'--filename=deployment.yaml', '--region=us-central1-c', '--image=gcr.io/gondola-329315/github.com/misbahhassan08/gserver:$COMMIT_SHA', '--cluster=cluster-1'] 
-
-    
+    args:['run' ,'--filename=deployment.yaml', '--region=us-central1-c', '--image=gcr.io/gondola-329315/github.com/misbahhassan08/gserver:$COMMIT_SHA', '--cluster=cluster-1']
