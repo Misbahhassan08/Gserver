@@ -1,17 +1,4 @@
-/**
- * This is the default settings file provided by Node-RED.
- *
- * It can contain any valid JavaScript code that will get run when Node-RED
- * is started.
- *
- * Lines that start with // are commented out.
- * Each entry should be separated from the entries above and below by a comma ','
- *
- * For more information about individual settings, refer to the documentation:
- *    https://nodered.org/docs/user-guide/runtime/configuration
- **/
 
-console.log("Settings.js called ");
 process.env.HOSTNAME = require('os').hostname();
 
 module.exports = {
@@ -28,6 +15,7 @@ module.exports = {
 
     // Retry time in milliseconds for Serial port connections
     serialReconnectTime: 15000,
+    mysqlReconnectTime: 30000,
 
     // Retry time in milliseconds for TCP socket connections
     //socketReconnectTime: 10000,
@@ -256,9 +244,11 @@ module.exports = {
     //    global.get("os")
     functionGlobalContext: {
         os:require('os'),
-        process:require('process')
-        // jfive:require("johnny-five"),
-        // j5board:require("johnny-five").Board({repl:false})
+        process:require('process'),
+        jfive:require("johnny-five"),
+        process:require('process'),
+		childprocess: require('child_process'),
+        j5board:require("johnny-five").Board({repl:false})
     },
 
     // Allow the Function node to load additional npm modules
