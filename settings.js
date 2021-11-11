@@ -31,8 +31,8 @@ module.exports = {
 
     // Retry time in milliseconds for Serial port connections
     serialReconnectTime: 15000,
-    mysqlReconnectTime: 30000,
 	
+    mysqlReconnectTime: 30000,
     // Retry time in milliseconds for TCP socket connections
     //socketReconnectTime: 10000,
 
@@ -101,7 +101,7 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    httpAdminRoot: '/misbah-admin',
+    //httpAdminRoot: '/admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
@@ -261,8 +261,10 @@ module.exports = {
     functionGlobalContext: {
         os:require('os'),
         process:require('process'),
+        //jfive:require("johnny-five"),
         process:require('process'),
-	childprocess: require('child_process'),
+		childprocess: require('child_process'),
+        //j5board:require("johnny-five").Board({repl:false})
     },
 
     // Allow the Function node to load additional npm modules
@@ -343,13 +345,13 @@ module.exports = {
     // Customising the editor
     editorTheme: {
 	page: {
-        title: "VisionAI Server",
+        title: "Server",
         favicon: "/absolute/path/to/theme/icon",
         css: "/absolute/path/to/custom/css/file",
         scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
     },
     header: {
-        title: "VisionAI Server",
+        title: "Server",
         image: null, // or null to remove image
         url: "#" // optional url to make the header text/image a link to this url
     },
