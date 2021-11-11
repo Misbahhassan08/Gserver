@@ -1,5 +1,21 @@
+/**
+ * This is the default settings file provided by Node-RED.
+ *
+ * It can contain any valid JavaScript code that will get run when Node-RED
+ * is started.
+ *
+ * Lines that start with // are commented out.
+ * Each entry should be separated from the entries above and below by a comma ','
+ *
+ * For more information about individual settings, refer to the documentation:
+ *    https://nodered.org/docs/user-guide/runtime/configuration
+ **/
 
 process.env.HOSTNAME = require('os').hostname();
+process.env.misbah = 'My name is misbah';
+process.env.mqtt_server = 'test.mosquitto.org'
+process.env.mqtt_port = 1883
+//process.env.db = require('firebase');
 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
@@ -15,8 +31,8 @@ module.exports = {
 
     // Retry time in milliseconds for Serial port connections
     serialReconnectTime: 15000,
-    mysqlReconnectTime: 30000,
-
+	
+	mysqlReconnectTime: 30000,
     // Retry time in milliseconds for TCP socket connections
     //socketReconnectTime: 10000,
 
@@ -59,10 +75,11 @@ module.exports = {
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
     //flowFile: 'flows.json',
-
+	
+	
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:
-    flowFilePretty: true,
+    //flowFilePretty: true,
 
     // By default, credentials are encrypted in storage using a generated key. To
     // specify your own secret, set the following property.
@@ -84,7 +101,7 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    httpAdminRoot: '/misbah-admin',
+    //httpAdminRoot: '/admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
@@ -111,22 +128,19 @@ module.exports = {
     //  readOnly:{boolean},
     //  middleware:{function or array}, (req,res,next) - http middleware
     //  ioMiddleware:{function or array}, (socket,next) - socket.io middleware
-    //ui: { path: "ui" },
+    ui: { path: "uipath" },
 
     // Securing Node-RED
     // -----------------
     // To password protect the Node-RED editor and admin API, the following
     // property can be used. See http://nodered.org/docs/security.html for details.
-    //httpAdminAuth: {user:"user", pass:"admin1234"}
     //adminAuth: {
     //    type: "credentials",
     //    users: [{
-    //        username: "admindev24",
-    //        password: "$2b$08$liwqv8uuKeJUN6wQ6IulpODBsCabIZwag9QudVSMgcplNNBmkCOHC",
+    //        username: "admin",
+    //        password: "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
     //        permissions: "*"
-    //    }
-    //           ]
-    //    
+    //    }]
     //},
 
     // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
@@ -143,16 +157,16 @@ module.exports = {
     // or a function that returns such an object:
     //// https object:
     //https: {
-    //  key: require("fs").readFileSync(' /data/privkey.pem'),
-    //  cert: require("fs").readFileSync(' /data/cert.pem')
+    //  key: require("fs").readFileSync('privkey.pem'),
+    //  cert: require("fs").readFileSync('cert.pem')
     //},
     ////https function:
     // https: function() {
     //     // This function should return the options object, or a Promise
     //     // that resolves to the options object
     //     return {
-    //         key: require("fs").readFileSync(' /usr/src/node-red/privatekey.pem'),
-    //         cert: require("fs").readFileSync(' /usr/src/node-red/certificate.pem')
+    //         key: require("fs").readFileSync('privkey.pem'),
+    //         cert: require("fs").readFileSync('cert.pem')
     //     }
     // },
 
@@ -166,12 +180,12 @@ module.exports = {
 
     // The following property can be used to cause insecure HTTP connections to
     // be redirected to HTTPS.
-     //requireHttps: true,
+    //requireHttps: true,
 
     // The following property can be used to disable the editor. The admin API
     // is not affected by this option. To disable both the editor and the admin
     // API, use either the httpRoot or httpAdminRoot properties
-    //disableEditor: false,
+    disableEditor: false,
 
     // The following property can be used to configure cross-origin resource sharing
     // in the HTTP nodes.
@@ -193,12 +207,14 @@ module.exports = {
     // in front of all http in nodes. This allows custom authentication to be
     // applied to all http in nodes, or any other sort of common request processing.
     // It can be a single function or an array of middleware functions.
-    //httpNodeMiddleware: function(req,res,next) {
-    //    // Handle/reject the request, or pass it on to the http in node by calling next();
-    //    // Optionally skip our rawBodyParser by setting this to true;
-    //    //req.skipRawBodyParser = true;
-    //    next();
-    //},
+    httpNodeMiddleware:function(req,res,next) {
+       // Handle/reject the request, or pass it on to the http in node by calling next();
+       // Optionally skip our rawBodyParser by setting this to true;
+        //req.skipRawBodyParser = true;
+		console.log('Request Type:', req.method);
+        next();
+    },
+
 
 
     // The following property can be used to add a custom middleware function
@@ -311,25 +327,55 @@ module.exports = {
     // The allow/denyList options can be used to limit what modules the runtime
     // will install/load. It can use '*' as a wildcard that matches anything.
     externalModules: {
-        // autoInstall: false,   // Whether the runtime will attempt to automatically install missing modules
+         autoInstall: true,   // Whether the runtime will attempt to automatically install missing modules
         // autoInstallRetry: 30, // Interval, in seconds, between reinstall attempts
-        // palette: {              // Configuration for the Palette Manager
-        //     allowInstall: true, // Enable the Palette Manager in the editor
-        //     allowUpload: true,  // Allow module tgz files to be uploaded and installed
+         palette: {              // Configuration for the Palette Manager
+             allowInstall: true, // Enable the Palette Manager in the editor
+             allowUpload: true,  // Allow module tgz files to be uploaded and installed
         //     allowList: [],
         //     denyList: []
-        // },
-        // modules: {              // Configuration for node-specified modules
-        //     allowInstall: true,
+         },
+         modules: {              // Configuration for node-specified modules
+             allowInstall: true,
         //     allowList: [],
         //     denyList: []
-        // }
+         }
     },
 
     // Customising the editor
     editorTheme: {
-        
-     projects: {
+	page: {
+        title: "iRobotX",
+        favicon: "/absolute/path/to/theme/icon",
+        css: "/absolute/path/to/custom/css/file",
+        scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
+    },
+    header: {
+        title: "iRobotX",
+        image: null, // or null to remove image
+        url: "https://ibrainos.com" // optional url to make the header text/image a link to this url
+    },
+	deployButton: {
+        type:"simple",
+        label:"Save",
+        icon: null // or null to remove image
+    },
+	login: {
+        image: "/absolute/path/to/login/page/big/image" // a 256x256 image
+    },
+    logout: {
+        redirect: "https:ibrainos.com"
+    },
+    palette: {
+        editable: true, // *Deprecated* - use externalModules.palette.allowInstall instead
+        catalogues: [   // Alternative palette manager catalogues
+            'https://catalogue.nodered.org/catalogue.json'
+        ],
+        theme: [ // Override node colours - rules test against category/type by RegExp.
+
+        ]
+    },
+        projects: {
             // To enable the Projects feature, set this value to true
             enabled: true,
             workflow: {
@@ -338,30 +384,8 @@ module.exports = {
                 //  - auto - changes are automatically committed
                 // This can be overridden per-user from the 'Git config'
                 // section of 'User Settings' within the editor
-                mode: "manual"
+                mode: "auto"
             }
-        },
-        page: {
-        title: "Gondola Server",
-        favicon: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.icon-icons.com%2Ficons2%2F37%2FPNG%2F512%2Fonline_4158.png&imgrefurl=https%3A%2F%2Ficon-icons.com%2Ficon%2Fonline%2F3596&tbnid=KdnVKWCqnNcBjM&vet=12ahUKEwiK7MK4x8XzAhXU3oUKHapwDowQMygBegUIARDNAQ..i&docid=Cj6Lsi_Q-B9XQM&w=512&h=512&q=online%20icons&ved=2ahUKEwiK7MK4x8XzAhXU3oUKHapwDowQMygBegUIARDNAQ",
-        css: "/absolute/path/to/custom/css/file",
-        scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
-    },
-    header: {
-        title: "Gondola Server",
-        image: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fodesk-prod-portraits.s3.amazonaws.com%2FCompanies%3A8261416%3ACompanyLogoURL%3FAWSAccessKeyId%3DAKIAIKIUKM3HBSWUGCNQ%26Expires%3D2147483647%26Signature%3DIlLD5LpUT4YAWdeAYNWfA5uiujs%253D&imgrefurl=https%3A%2F%2Fwww.upwork.com%2Fo%2Fcompanies%2F~01738bd418eadd5bd5%2F&tbnid=yuUb3t7alMCaIM&vet=12ahUKEwifhvHkx8XzAhVdgM4BHbF7CvcQMygAegQIARA1..i&docid=NoQ__mnHJe9EUM&w=200&h=200&q=inovat-ioi&ved=2ahUKEwifhvHkx8XzAhVdgM4BHbF7CvcQMygAegQIARA1", // or null to remove image
-        url: "#" // optional url to make the header text/image a link to this url
-    },
-    deployButton: {
-        type:"simple",
-        label:"Deploy Server",
-        icon: "/absolute/path/to/deploy/button/image" // or null to remove image
-    },
-        login: {
-        image: "/absolute/path/to/login/page/big/image" // a 256x256 image
-    },
-    logout: {
-        redirect: "#"
-    }
+        }
     }
 }
