@@ -261,10 +261,8 @@ module.exports = {
     functionGlobalContext: {
         os:require('os'),
         process:require('process'),
-        jfive:require("johnny-five"),
         process:require('process'),
-		childprocess: require('child_process'),
-        j5board:require("johnny-five").Board({repl:false})
+	childprocess: require('child_process'),
     },
 
     // Allow the Function node to load additional npm modules
