@@ -101,7 +101,7 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    //httpAdminRoot: '/admin',
+    httpAdminRoot: '/misbah-admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
@@ -343,15 +343,15 @@ module.exports = {
     // Customising the editor
     editorTheme: {
 	page: {
-        title: "iRobotX",
+        title: "VisionAI",
         favicon: "/absolute/path/to/theme/icon",
         css: "/absolute/path/to/custom/css/file",
         scripts: [ "/absolute/path/to/custom/script/file", "/another/script/file"]
     },
     header: {
-        title: "iRobotX",
+        title: "VisionAI Server",
         image: null, // or null to remove image
-        url: "https://ibrainos.com" // optional url to make the header text/image a link to this url
+        url: "#" // optional url to make the header text/image a link to this url
     },
 	deployButton: {
         type:"simple",
@@ -362,7 +362,7 @@ module.exports = {
         image: "/absolute/path/to/login/page/big/image" // a 256x256 image
     },
     logout: {
-        redirect: "https:ibrainos.com"
+        redirect: "#"
     },
     palette: {
         editable: true, // *Deprecated* - use externalModules.palette.allowInstall instead
